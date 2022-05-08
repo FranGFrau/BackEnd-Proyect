@@ -1,0 +1,56 @@
+[
+  {
+    "title": "Cuaderno",
+    "price": 150.45,
+    "thumbnail": "link",
+    "id": 1
+  },
+  {
+    "title": "Cuaderno",
+    "price": 150.45,
+    "thumbnail": "link",
+    "id": 2
+  },
+  {
+    "title": "Cuaderno",
+    "price": 150.45,
+    "thumbnail": "link",
+    "id": 3
+  },
+  {
+    "title": "Cuaderno",
+    "price": 150.45,
+    "thumbnail": "link",
+    "id": 4
+  },
+  {
+    "title": "Cuaderno",
+    "price": 150.45,
+    "thumbnail": "link",
+    "id": 5
+  },
+  {
+    "title": "Cuaderno",
+    "price": 150.45,
+    "thumbnail": "link",
+    "id": 6
+  },
+  {
+    "title": "Cuaderno",
+    "price": 150.45,
+    "thumbnail": "link",
+    "id": 7
+  },
+  {
+    "title": "Cuaderno",
+    "price": 150.45,
+    "thumbnail": "link",
+    "id": 8
+  },
+  {
+    "title": "Cuaderno",
+    "price": 150.45,
+    "thumbnail": "link",
+    "id": 9
+  }
+]
