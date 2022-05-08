@@ -6,51 +6,33 @@
     "id": 1
   },
   {
-    "title": "Cuaderno",
-    "price": 150.45,
+    "title": "Escuadras",
+    "price": 220.45,
     "thumbnail": "link",
     "id": 2
   },
   {
-    "title": "Cuaderno",
-    "price": 150.45,
+    "title": "Regla",
+    "price": 100.50,
     "thumbnail": "link",
     "id": 3
   },
   {
-    "title": "Cuaderno",
-    "price": 150.45,
+    "title": "Compás",
+    "price": 140.40,
     "thumbnail": "link",
     "id": 4
   },
   {
-    "title": "Cuaderno",
-    "price": 150.45,
+    "title": "Lapicera",
+    "price": 70.00,
     "thumbnail": "link",
     "id": 5
   },
   {
-    "title": "Cuaderno",
-    "price": 150.45,
+    "title": "Lapiz",
+    "price": 63.45,
     "thumbnail": "link",
     "id": 6
   },
-  {
-    "title": "Cuaderno",
-    "price": 150.45,
-    "thumbnail": "link",
-    "id": 7
-  },
-  {
-    "title": "Cuaderno",
-    "price": 150.45,
-    "thumbnail": "link",
-    "id": 8
-  },
-  {
-    "title": "Cuaderno",
-    "price": 150.45,
-    "thumbnail": "link",
-    "id": 9
-  }
 ]

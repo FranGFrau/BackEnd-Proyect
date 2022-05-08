@@ -83,10 +83,3 @@ class Contenedor {
 }
 
 module.exports = Contenedor;
-
-let contenedor = new Contenedor("productosOP.txt");
-
-async function test() {
-  await contenedor.read();
-}
-test();
