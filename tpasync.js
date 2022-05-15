@@ -45,7 +45,7 @@ class Contenedor {
     await this.write(datos, "Agregado!");
   }
 
-  async getById(num) {
+  /*   async getById(num) {
     let data = await this.read();
     let datos = JSON.parse(data);
 
@@ -79,6 +79,56 @@ class Contenedor {
   async deleteAll() {
     let data = [];
     await this.write(data, "Se eliminaron todos los productos");
+  } */
+  async getProductos() {
+    let data = await this.read();
+    let datos = JSON.parse(data);
+
+    return datos;
+  }
+  async getProducto(id) {
+    let data = await this.read();
+    let datos = JSON.parse(data);
+
+    let result = datos.filter((product) => product.id == id);
+    return result;
+  }
+  async addProducto(product) {
+    let data = await this.read();
+    let datos = JSON.parse(data);
+
+    product.id = datos.length + 1;
+    datos.push(product);
+
+    await this.write(datos, "Agregado!");
+  }
+  async updateProducto(id, product) {
+    let data = await this.read();
+    let datos = JSON.parse(data);
+
+    let producto = datos.find((product) => product.id == id);
+
+    if (producto) {
+      let index = datos.indexOf(producto);
+      datos[index] = product;
+      await this.write(datos, "Actualizado!");
+    } else {
+      console.log(`Producto con ID: ${id} no existe`);
+    }
+  }
+  async deleteProducto(id) {
+    let data = await this.read();
+    let datos = JSON.parse(data);
+
+    let product = datos.find((product) => product.id == id);
+
+    if (product) {
+      let index = datos.indexOf(product);
+      datos.splice(index, 1);
+      await this.write(datos, `Producto con ID: ${id} eliminado`);
+    } else {
+      console.log(`Producto con ID: ${id} no existe`);
+    }
   }
 }
 
