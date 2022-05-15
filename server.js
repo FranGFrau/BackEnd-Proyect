@@ -1,9 +1,10 @@
 const express = require("express");
 const Contenedor = require("./tpasync");
 const { Router } = require("express");
+const multer = require("multer");
 
 const app = express();
-const multer = require("multer");
+
 const router = Router();
 
 const port = 8080;
@@ -59,4 +60,4 @@ router.delete("/:id", async (req, res) => {
   res.send(producto);
 });
 
-app.use("/api/personas", router);
+app.use("/api/productos", router);
