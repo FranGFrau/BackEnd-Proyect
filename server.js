@@ -20,6 +20,10 @@ const storage = multer.diskStorage({
   },
 });
 
+app.use(express.json());
+
+app.use(express.urlencoded({ extended: true }));
+
 app.use("/uploads", express.static(__dirname + "uploads"));
 
 app.use(express.static("public"));
@@ -48,6 +52,7 @@ router.post("/", uploads.single("thumbnail"), async (req, res) => {
   producto.thumnail = req.file.originalname;
   const id = await contenedor.addProducto(producto);
   res.send({ id: id });
+  console.log(`Producto agregado con ID: ${id}`);
 });
 
 router.put("/:id", async (req, res) => {
