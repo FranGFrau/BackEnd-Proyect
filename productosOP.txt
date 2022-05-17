@@ -12,20 +12,20 @@
     "id": 2
   },
   {
-    "title": "Regla",
-    "price": 100.50,
+    "title": "Cartuchera",
+    "price": 240.4,
     "thumbnail": "link",
-    "id": 3
+    "id": 4
   },
   {
     "title": "Compás",
-    "price": 140.40,
+    "price": 140.4,
     "thumbnail": "link",
     "id": 4
   },
   {
     "title": "Lapicera",
-    "price": 70.00,
+    "price": 70,
     "thumbnail": "link",
     "id": 5
   },
@@ -34,5 +34,5 @@
     "price": 63.45,
     "thumbnail": "link",
     "id": 6
-  },
+  }
 ]

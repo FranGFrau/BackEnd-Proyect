@@ -11,12 +11,14 @@ const port = 8080;
 
 const contenedor = new Contenedor("productosOP.txt");
 
+const productosRouter = require("./productosRouter.js");
+
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, "./uploads");
   },
   filename: function (req, file, cb) {
-    cb(null, file.originalname);
+    cb(null, `${Date.now()}-${file.originalname}`);
   },
 });
 
@@ -37,9 +39,12 @@ server.on("error", (err) => {
   console.log(err);
 });
 
+app.use("/api/productos", productosRouter);
+
 router.get("/", async (req, res) => {
   const productos = await contenedor.getProductos();
   res.send(productos);
+  console.log(req.body.nombre);
 });
 
 router.get("/:id", async (req, res) => {
@@ -48,9 +53,9 @@ router.get("/:id", async (req, res) => {
 });
 
 router.post("/", uploads.single("thumbnail"), async (req, res) => {
-  const producto = req.body;
-  producto.thumnail = req.file.originalname;
-  const id = await contenedor.addProducto(producto);
+  const productoNuevo = req.body;
+  productoNuevo.thumbnail = productoNuevo.filename;
+  const id = await contenedor.addProducto(productoNuevo);
   res.send({ id: id });
   console.log(`Producto agregado con ID: ${id}`);
 });
