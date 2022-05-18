@@ -22,15 +22,15 @@ const storage = multer.diskStorage({
   },
 });
 
+const uploads = multer({ storage: storage });
+
 app.use(express.json());
 
 app.use(express.urlencoded({ extended: true }));
 
-app.use("/uploads", express.static(__dirname + "uploads"));
+app.use("/uploads", express.static(__dirname + "/uploads"));
 
 app.use(express.static("public"));
-
-const uploads = multer({ storage: storage });
 
 const server = app.listen(port, () => {
   console.log(`Server running on port ${port}`);
@@ -54,10 +54,11 @@ router.get("/:id", async (req, res) => {
 
 router.post("/", uploads.single("thumbnail"), async (req, res) => {
   const productoNuevo = req.body;
-  productoNuevo.thumbnail = productoNuevo.filename;
+  const file = req.file;
+  productoNuevo.thumbnail = file.filename;
   const id = await contenedor.addProducto(productoNuevo);
-  res.send({ id: id });
-  console.log(`Producto agregado con ID: ${id}`);
+  res.send({ productoNuevo, id });
+  console.log(`Producto agregado con ID: ${productoNuevo.id}`);
 });
 
 router.put("/:id", async (req, res) => {
