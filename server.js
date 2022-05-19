@@ -25,11 +25,8 @@ const storage = multer.diskStorage({
 const uploads = multer({ storage: storage });
 
 app.use(express.json());
-
 app.use(express.urlencoded({ extended: true }));
-
 app.use("/uploads", express.static(__dirname + "/uploads"));
-
 app.use(express.static("public"));
 
 const server = app.listen(port, () => {
@@ -63,6 +60,7 @@ router.post("/", uploads.single("thumbnail"), async (req, res) => {
 
 router.put("/:id", async (req, res) => {
   const producto = await contenedor.updateProducto(req.params.id, req.body);
+  console.log(`Producto con ID: ${req.params.id} actualizado`);
   res.send(producto);
 });
 

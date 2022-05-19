@@ -111,6 +111,7 @@ class Contenedor {
     if (producto) {
       let index = datos.indexOf(producto);
       datos[index] = product;
+      product.id = id;
       await this.write(datos, "Actualizado!");
     } else {
       console.log(`Producto con ID: ${id} no existe`);
