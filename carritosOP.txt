@@ -1,7 +1,11 @@
 [
+  {
+    "id": 1,
+    "timestamp": "7/6/2022",
+    "productos": [
       {
-        "nombre": "escuadra",
-        "foto": "esc.png",
+        "nombre": "producto 1",
+        "foto": "thumbnail.png",
         "descripcion": "lorem ipsum",
         "precio": 900,
         "stock": 20,
@@ -9,12 +13,14 @@
         "id": 1
       },
       {
-        "nombre": "libro",
-        "foto": "1f4d3.png",
+        "nombre": "producto 2",
+        "foto": "anotherthumbnail.png",
         "descripcion": "lorem ipsum 2",
         "precio": 1200,
         "stock": 42,
         "timestamp": "7/6/2022",
         "id": 2
       }
+    ]
+  }
 ]

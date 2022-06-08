@@ -45,41 +45,6 @@ class Contenedor {
     await this.write(datos, "Agregado!");
   }
 
-  /*   async getById(num) {
-    let data = await this.read();
-    let datos = JSON.parse(data);
-
-    let result = datos.filter((product) => product.id == num);
-    return result;
-  }
-
-  async getAll() {
-    let data = await this.read();
-    let datos = JSON.parse(data);
-
-    return datos;
-  }
-
-  async deleteById(num) {
-    let data = await this.read();
-    let datos = JSON.parse(data);
-
-    let product = datos.find((product) => product.id == num);
-
-    if (product) {
-      let index = datos.indexOf(product);
-      console.log(index);
-      datos.splice(index, 1);
-      await this.write(datos, `Producto con ID: ${num} eliminado`);
-    } else {
-      console.log(`Producto con ID: ${num} no existe`);
-    }
-  }
-
-  async deleteAll() {
-    let data = [];
-    await this.write(data, "Se eliminaron todos los productos");
-  } */
   async getProductos() {
     let data = await this.read();
     let datos = JSON.parse(data);
@@ -129,6 +94,81 @@ class Contenedor {
       await this.write(datos, `Producto con ID: ${id} eliminado`);
     } else {
       console.log(`Producto con ID: ${id} no existe`);
+    }
+  }
+
+  // Carrito
+
+  async addCarrito() {
+    let data = await this.read();
+    let datos = JSON.parse(data);
+    let timestamp = new Date().toLocaleDateString();
+
+    let carrito = {
+      id: datos.length + 1,
+      timestamp: timestamp,
+      productos: [],
+    };
+    datos.push(carrito);
+
+    await this.write(datos, "Agregado!");
+    return carrito;
+  }
+  async deleteCarrito(id) {
+    let data = await this.read();
+    let datos = JSON.parse(data);
+
+    let carrito = datos.find((carrito) => carrito.id == id);
+
+    if (carrito) {
+      let index = datos.indexOf(carrito);
+      datos.splice(index, 1);
+      await this.write(datos, `Carrito con ID: ${id} eliminado`);
+    } else {
+      console.log(`Carrito con ID: ${id} no existe`);
+    }
+  }
+  async getCarrito(id) {
+    let data = await this.read();
+    let datos = JSON.parse(data);
+
+    let carrito = datos.find((carrito) => carrito.id == id);
+
+    if (carrito) {
+      return carrito;
+    } else {
+      console.log(`Carrito con ID: ${id} no existe`);
+    }
+  }
+  async addProductoCarrito(id, producto) {
+    let data = await this.read();
+    let datos = JSON.parse(data);
+    let timestamp = new Date().toLocaleDateString();
+    producto.timestamp = timestamp;
+
+    let carrito = datos.find((carrito) => carrito.id == id);
+
+    producto.id = carrito.productos.length + 1;
+
+    if (carrito) {
+      carrito.productos.push(producto);
+      await this.write(datos, "Agregado!");
+    } else {
+      console.log(`Carrito con ID: ${id} no existe`);
+    }
+  }
+  async deleteProductoCarrito(id, producto) {
+    let data = await this.read();
+    let datos = JSON.parse(data);
+
+    let carrito = datos.find((carrito) => carrito.id == id);
+
+    if (carrito) {
+      let index = carrito.productos.indexOf(producto);
+      carrito.productos.splice(index, 1);
+      await this.write(datos, "Eliminado!");
+    } else {
+      console.log(`Carrito con ID: ${id} no existe`);
     }
   }
 }
