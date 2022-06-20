@@ -1,5 +1,6 @@
 const express = require("express");
 const DB = require("./db/controladorDB");
+const DBSQLite = require("./db/controladorSQLite");
 const { Router } = require("express");
 const multer = require("multer");
 const { Server: HttpServer } = require("http");
@@ -17,7 +18,7 @@ const routerProductos = Router();
 
 const port = 8080;
 
-const mensajesDB = new DB("mensajes");
+const mensajesDB = new DBSQLite("mensajes");
 const productosDB = new DB("productos");
 
 app.set("view engine", "ejs");

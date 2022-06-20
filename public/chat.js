@@ -1,9 +1,7 @@
 const socket = io();
 
-const DB = require("./db/controladorDB");
-const { optionsSQLite } = require("./db/mysqlite");
-const knexSQLite = require("knex")(optionsSQLite);
-const mensajesDB = new DB("mensajes");
+const DBSQLite = require("./db/controladorSQLite");
+const mensajesDB = new DBSQLite("mensajes");
 
 const spanServerMessage = document.getElementById("serverNotification");
 const usersContainer = document.getElementById("usersContainer");
@@ -51,6 +49,7 @@ socket.on("message", (data) => {
     </li>
   `;
   messagesContainer.innerHTML += message;
+  mensajesDB.create(data);
 });
 
 socket.on("myMessage", (data) => {
@@ -62,18 +61,6 @@ socket.on("myMessage", (data) => {
     <div class="message other-message float-right"> ${data.mensaje} </div>
   </li>
   `;
-
-  knexSQLite("mensajes")
-    .insert(message)
-    .then((result) => {
-      console.log(result);
-    })
-    .catch((err) => {
-      console.log(err);
-    })
-    .finally(() => {
-      knexSQLite.destroy();
-    });
-
   messagesContainer.innerHTML += message;
+  mensajesDB.create(data);
 });
