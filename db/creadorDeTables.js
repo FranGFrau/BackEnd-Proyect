@@ -1,19 +1,18 @@
-const { optionsSQLite } = require("./mysqlite");
-const knex = require("knex")(optionsSQLite);
+const DBSQLite = require("./controladorSQLite");
 
-knex.schema
-  .createTable("productos", (table) => {
-    table.increments("id").primary();
-    table.string("mensaje");
-    table.string("usuario");
-    table.string("fecha");
-  })
-  .then(() => {
-    console.log("Tabla mensajes creada");
+const mensajesDB = new DBSQLite("mensajes");
+
+const mensaje = {
+  mensaje: "Hola",
+  usuario: "Juan",
+  fecha: "2020-01-01",
+};
+
+mensajesDB
+  .getAll()
+  .then((result) => {
+    console.log(result);
   })
   .catch((err) => {
     console.log(err);
-  })
-  .finally(() => {
-    knex.destroy();
   });
