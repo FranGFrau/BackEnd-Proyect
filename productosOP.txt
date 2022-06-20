@@ -1,20 +1,16 @@
 [
       {
         "nombre": "escuadra",
-        "foto": "esc.png",
+        "imagen": "esc.png",
         "descripcion": "lorem ipsum",
         "precio": 900,
         "stock": 20,
-        "timestamp": "7/6/2022",
-        "id": 1
       },
       {
         "nombre": "libro",
-        "foto": "1f4d3.png",
+        "imagen": "1f4d3.png",
         "descripcion": "lorem ipsum 2",
         "precio": 1200,
         "stock": 42,
-        "timestamp": "7/6/2022",
-        "id": 2
       }
 ]

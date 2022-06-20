@@ -1,21 +1,24 @@
 const express = require("express");
-const Contenedor = require("./tpasync");
+const DB = require("./db/controladorDB");
 const { Router } = require("express");
 const multer = require("multer");
 const { Server: HttpServer } = require("http");
 const { Server: IOServer } = require("socket.io");
+const { options } = require("./db/mysql");
+const { optionsSQLite } = require("./db/mysqlite");
+const knex = require("knex")(options);
+const knexSQLite = require("knex")(optionsSQLite);
 
 const app = express();
 const httpServer = new HttpServer(app);
 const io = new IOServer(httpServer);
 
 const routerProductos = Router();
-const routerCarrito = Router();
 
 const port = 8080;
 
-const contenedor = new Contenedor("productosOP.txt");
-const carritos = new Contenedor("carritosOP.txt");
+const mensajesDB = new DB("mensajes");
+const productosDB = new DB("productos");
 
 app.set("view engine", "ejs");
 app.set("views", __dirname + "/views");
@@ -45,29 +48,64 @@ server.on("error", (err) => {
 
 let administrador = true;
 
+app.get("/chat", (req, res) => {
+  mensajesDB
+    .getAll()
+    .then((result) => {
+      res.render("chat", { logs: result });
+      console.log(result);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
 // routerProductos
 
 routerProductos.get("/:id?", async (req, res) => {
   const id = req.params.id;
   if (id) {
-    const producto = await contenedor.getProducto(id);
-    res.send({ producto });
+    await productosDB
+      .get(id)
+      .then((producto) => {
+        res.json(producto);
+      })
+      .catch((err) => {
+        res.status(500).json({ error: err });
+      })
+      .finally(() => {
+        knex.destroy();
+      });
   } else {
-    const productos = await contenedor.getProductos();
-    res.send({ productos });
+    await productosDB
+      .getAll()
+      .then((productos) => {
+        res.json(productos);
+      })
+      .catch((err) => {
+        res.status(500).json({ error: err });
+      })
+      .finally(() => {
+        knex.destroy();
+      });
   }
 });
 
-routerProductos.post("/", uploads.single("foto"), async (req, res) => {
+routerProductos.post("/", uploads.single("imagen"), async (req, res) => {
   if (administrador == true) {
     const productoNuevo = req.body;
-    const file = req.file;
-    let today = new Date().toLocaleDateString();
-    productoNuevo.timestamp = today;
-    productoNuevo.foto = file.filename;
-    const id = await contenedor.addProducto(productoNuevo);
-    res.send({ productoNuevo, id });
-    console.log(`Producto agregado con ID: ${productoNuevo.id}`);
+    await productosDB
+      .create(productoNuevo)
+      .then((result) => {
+        res.send({ result });
+        console.log(`Producto agregado`);
+      })
+      .catch((err) => {
+        res.send({ err });
+      })
+      .finally(() => {
+        knex.destroy();
+      });
   } else {
     res.send(
       "{ error : -1, descripcion: ruta '/api/productos' método 'POST' no autorizada }"
@@ -79,7 +117,18 @@ routerProductos.put("/:id", async (req, res) => {
   if (administrador == true) {
     const id = req.params.id;
     const producto = req.body;
-    await contenedor.updateProducto(id, producto);
+    await productosDB
+      .update(id, producto)
+      .then((result) => {
+        res.send({ result });
+        console.log(`Producto actualizado`);
+      })
+      .catch((err) => {
+        res.send({ err });
+      })
+      .finally(() => {
+        knex.destroy();
+      });
   } else {
     res.send(
       "{ error : -1, descripcion: ruta '/api/productos/id' método 'PUT' no autorizada }"
@@ -90,7 +139,17 @@ routerProductos.put("/:id", async (req, res) => {
 routerProductos.delete("/:id", async (req, res) => {
   if (administrador == true) {
     const id = req.params.id;
-    await contenedor.deleteProducto(id);
+    await productosDB
+      .delete(id)
+      .then(() => {
+        res.send(`Producto ${id} eliminado`);
+      })
+      .catch((err) => {
+        res.send({ err });
+      })
+      .finally(() => {
+        knex.destroy();
+      });
   } else {
     res.send(
       "{ error : -1, descripcion: ruta '/api/productos/id' método 'DELETE' no autorizada }"
@@ -100,47 +159,51 @@ routerProductos.delete("/:id", async (req, res) => {
 
 // routerCarrito
 
-routerCarrito.post("/", async (req, res) => {
-  const carrito = await carritos.addCarrito();
-  res.json(carrito);
-});
+let users = [];
+const messages = [];
 
-routerCarrito.delete("/:id", async (req, res) => {
-  const id = req.params.id;
-  await carritos.deleteCarrito(id);
-});
+io.on("connection", (socket) => {
+  console.log("Nuevo cliente conectado");
 
-routerCarrito.get("/:id/productos", async (req, res) => {
-  const id = req.params.id;
-  const productos = await carritos.getCarrito(id);
-  res.json(productos);
-});
+  // joinChat event
+  socket.on("joinChat", ({ username }) => {
+    users.push({
+      id: socket.id,
+      username,
+    });
 
-routerCarrito.post("/:id/productos", async (req, res) => {
-  const id = req.params.id;
-  const producto = req.body;
-  await carritos.addProductoCarrito(id, producto);
-});
-
-routerCarrito.delete("/:id/productos/:idProducto", async (req, res) => {
-  const id = req.params.id;
-  const idProducto = req.params.idProducto;
-  await carritos.deleteProductoCarrito(id, idProducto);
-});
-
-/* io.on("connection", (socket) => {
-  console.log("Cliente conectado");
-
-  socket.on("sendForm", async (producto) => {
-    await contenedor.addProducto(producto);
-    let productos = await contenedor.getProductos();
-    io.emit("myProducto", productos);
+    socket.emit("notification", `Bienvenido ${username}`);
+    socket.broadcast.emit("notification", `${username} se ha unido al chat`);
+    io.sockets.emit("users", users);
   });
 
-  socket.on("disconnect", () => {
-    console.log("Cliente desconectado");
+  socket.on("messageInput", (data) => {
+    const now = new Date();
+    const user = users.find((user) => user.id === socket.id);
+    const message = {
+      mensaje: data,
+      fecha: `${now.getHours()}:${now.getMinutes()}`,
+      usuario: user,
+    };
+    messages.push(message);
+
+    socket.emit("myMessage", message);
+
+    socket.broadcast.emit("message", message);
+  });
+
+  socket.on("disconnect", (reason) => {
+    const user = users.find((user) => user.id === socket.id);
+    users = users.filter((user) => user.id !== socket.id);
+    if (user) {
+      socket.broadcast.emit(
+        "notification",
+        `${user.username} se ha ido del chat`
+      );
+    }
+
+    io.sockets.emit("users", users);
   });
 });
- */
+
 app.use("/api/productos", routerProductos);
-app.use("/api/carrito", routerCarrito);
