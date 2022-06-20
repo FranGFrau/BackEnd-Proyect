@@ -1,8 +1,3 @@
-const { Server: HttpServer } = require("http");
-const { Server: IOServer } = require("socket.io");
-const app = express();
-const httpServer = new HttpServer(app);
-const io = new IOServer(httpServer);
 const socket = io();
 
 const DB = require("./db/controladorDB");
@@ -10,16 +5,11 @@ const { optionsSQLite } = require("./db/mysqlite");
 const knexSQLite = require("knex")(optionsSQLite);
 const mensajesDB = new DB("mensajes");
 
-const spanServerMessage = document.getElementById("serverNotification"); // Elemento para mostrar las notificaciones recibidas del servidor
-const usersContainer = document.getElementById("usersContainer"); // Elemento para listar todos los usuarios
-const sendMessage = document.getElementById("sendMessage"); // Botón que envia el mensaje
-const messageInput = document.getElementById("messageInput"); // Caja de texto que contiene el mensaje
-const messagesContainer = document.getElementById("messagesContainer"); // Contenedor donde esta todo el chat
-
-// Obtenemos el nombre de usario de los query params: ?username=iram
-const { username } = Qs.parse(window.location.search, {
-  ignoreQueryPrefix: true,
-});
+const spanServerMessage = document.getElementById("serverNotification");
+const usersContainer = document.getElementById("usersContainer");
+const sendMessage = document.getElementById("sendMessage");
+const messageInput = document.getElementById("messageInput");
+const messagesContainer = document.getElementById("messagesContainer");
 
 socket.emit("joinChat", { username });
 
@@ -27,11 +17,7 @@ socket.on("notification", (data) => {
   spanServerMessage.innerHTML = data;
 });
 
-// Handler para recibir la lista actualizada de usuario y mostrarlas en su contenedor
 socket.on("users", (data) => {
-  /**
-   * Recibimos los usuarios como un arreglo de objetos y los transformamos en un HTML string para poder inyectarlo en su contenedor
-   */
   const users = data
     .map((user) => {
       const userTemplate = `
@@ -50,13 +36,11 @@ socket.on("users", (data) => {
   usersContainer.innerHTML = users;
 });
 
-// Listener para actuar cuando se le de click al botón de enviar
 sendMessage.addEventListener("click", () => {
   socket.emit("messageInput", messageInput.value);
   messageInput.value = "";
 });
 
-// Handler para recibir un mensaje de otro cliente y mostrarlo en la conversación
 socket.on("message", (data) => {
   const message = `
     <li class="clearfix">
@@ -69,7 +53,6 @@ socket.on("message", (data) => {
   messagesContainer.innerHTML += message;
 });
 
-// Handler para recibir un mensaje propio y mostrarlo en la conversación
 socket.on("myMessage", (data) => {
   const message = `
   <li class="clearfix">

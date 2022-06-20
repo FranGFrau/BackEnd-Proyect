@@ -1,8 +1,9 @@
 const optionsSQLite = {
   client: "sqlite3",
   connection: {
-    filename: "./db/db.sqlite3",
+    filename: "./mydb.sqlite3",
   },
+  useNullAsDefault: true,
 };
 
 module.exports = { optionsSQLite };

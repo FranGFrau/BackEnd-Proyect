@@ -157,7 +157,7 @@ routerProductos.delete("/:id", async (req, res) => {
   }
 });
 
-// routerCarrito
+// Chat
 
 let users = [];
 const messages = [];
