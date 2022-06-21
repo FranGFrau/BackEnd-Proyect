@@ -3,17 +3,12 @@ const socket = io();
 const DBSQLite = require("./db/controladorSQLite");
 const mensajesDB = new DBSQLite("mensajes");
 
-const spanServerMessage = document.getElementById("serverNotification");
 const usersContainer = document.getElementById("usersContainer");
 const sendMessage = document.getElementById("sendMessage");
 const messageInput = document.getElementById("messageInput");
 const messagesContainer = document.getElementById("messagesContainer");
 
 socket.emit("joinChat", { username });
-
-socket.on("notification", (data) => {
-  spanServerMessage.innerHTML = data;
-});
 
 socket.on("users", (data) => {
   const users = data
@@ -36,6 +31,7 @@ socket.on("users", (data) => {
 
 sendMessage.addEventListener("click", () => {
   socket.emit("messageInput", messageInput.value);
+  console.log(messageInput.value);
   messageInput.value = "";
 });
 

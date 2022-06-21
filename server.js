@@ -54,7 +54,6 @@ app.get("/chat", (req, res) => {
     .getAll()
     .then((result) => {
       res.render("chat", { logs: result });
-      console.log(result);
     })
     .catch((err) => {
       console.log(err);
@@ -166,11 +165,9 @@ const messages = [];
 io.on("connection", (socket) => {
   console.log("Nuevo cliente conectado");
 
-  // joinChat event
-  socket.on("joinChat", ({ username }) => {
+  socket.on("joinChat", () => {
     users.push({
-      id: socket.id,
-      username,
+      username: socket.id,
     });
 
     socket.emit("notification", `Bienvenido ${username}`);
