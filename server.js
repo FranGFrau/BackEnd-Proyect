@@ -2,7 +2,6 @@ const express = require("express");
 const DB = require("./db/controladorDB");
 const DBSQLite = require("./db/controladorSQLite");
 const { Router } = require("express");
-const multer = require("multer");
 const { Server: HttpServer } = require("http");
 const { Server: IOServer } = require("socket.io");
 const { options } = require("./db/mysql");
@@ -24,21 +23,11 @@ const productosDB = new DB("productos");
 app.set("view engine", "ejs");
 app.set("views", __dirname + "/views");
 
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "./uploads");
-  },
-  filename: function (req, file, cb) {
-    cb(null, `${Date.now()}-${file.originalname}`);
-  },
-});
-
-const uploads = multer({ storage: storage });
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/uploads", express.static(__dirname + "/uploads"));
 app.use(express.static(__dirname + "/public"));
+app.use("/api/productos", routerProductos);
 
 const server = app.listen(port, () => {
   console.log(`Server running on port ${port}`);
@@ -203,5 +192,3 @@ io.on("connection", (socket) => {
     io.sockets.emit("users", users);
   });
 });
-
-app.use("/api/productos", routerProductos);

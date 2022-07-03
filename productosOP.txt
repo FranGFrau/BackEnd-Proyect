@@ -1,16 +1,42 @@
 [
       {
         "nombre": "escuadra",
-        "imagen": "esc.png",
-        "descripcion": "lorem ipsum",
         "precio": 900,
-        "stock": 20,
       },
       {
         "nombre": "libro",
-        "imagen": "1f4d3.png",
-        "descripcion": "lorem ipsum 2",
         "precio": 1200,
-        "stock": 42,
+      },
+      {
+        "nombre": "producto 3",
+        "precio": 570,
+      },
+      {
+        "nombre": "producto 4",
+        "precio": 1500,
+      },
+      {
+        "nombre":"producto 5",
+        "precio":2000,
+      },
+      {
+        "nombre":"producto 6",
+        "precio":2350,
+      },
+      {
+        "nombre":"producto 7",
+        "precio":2900,
+      },
+      {
+        "nombre":"producto 8",
+        "precio":3400,
+      },
+      {
+        "nombre":"producto 9",
+        "precio":4100,
+      },
+      {
+        "nombre":"producto 10",
+        "precio":4750,
       }
 ]
