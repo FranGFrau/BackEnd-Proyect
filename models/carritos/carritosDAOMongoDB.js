@@ -1,15 +1,12 @@
-const { Schema } = require("mongoose");
+const contenedorMongo = require("../../contenedores/contenedorMongoDB");
 
-const carritoSchema = new Schema({
-  fecha: { type: String, required: true },
-  usuario: { type: String, required: true },
-  carrito: { type: Array, required: true },
-});
-
-class CarritosDAOSMongoDB extends ContenedorMongoDB {
+class CarritosDAOSMongoDB extends contenedorMongo {
   constructor() {
-    super(carritoSchema, "Cart");
+    super("carritos", {
+      timestamp: { type: String, required: true },
+      productos: { type: Array, required: true },
+    });
   }
 }
 
-export default CarritosDAOSMongoDB;
+module.exports = CarritosDAOSMongoDB;

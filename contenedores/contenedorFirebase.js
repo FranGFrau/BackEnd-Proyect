@@ -40,4 +40,4 @@ class ContenedorFirebase {
   }
 }
 
-export default ContenedorFirebase;
+module.exports = ContenedorFirebase;

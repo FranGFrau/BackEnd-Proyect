@@ -1,4 +1,4 @@
-const ContenedorArchivo = require("./contenedores/contenedorArchivo");
+const ContenedorArchivo = require("../../contenedores/contenedorArchivo");
 
 class ProductosDAOArchivo extends ContenedorArchivo {
   constructor() {

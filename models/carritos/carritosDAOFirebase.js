@@ -1,4 +1,4 @@
-const ContenedorFirebase = require("./contenedores/contenedorFirebase");
+const ContenedorFirebase = require("../../contenedores/contenedorFirebase");
 
 class CarritosDAOArchivo extends ContenedorFirebase {
   constructor() {
