@@ -1,0 +1,24 @@
+`
+<div class="row flex-row mb-2">
+  <div class="col-auto" style="max-width: 95%">
+    <div class="row bg-dark">
+      <div class="col-auto">
+        <img src="${mensaje.author.avatar}" style="height: 60px; width: 60px" />
+      </div>
+
+      <div class="col-auto d-flex align-items-center">
+        <h5 class="text-primary fw-bold m-0 p-2">
+          ${mensaje.author.id} /
+          <span style="color: brown">${mensaje.date}</span>
+        </h5>
+      </div>
+    </div>
+
+    <div class="row bg-light">
+      <div class="col">
+        <p class="fst-italic text-success p-2 text-break">${mensaje.text}</p>
+      </div>
+    </div>
+  </div>
+</div>
+`

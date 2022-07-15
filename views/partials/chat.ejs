@@ -1,0 +1,87 @@
+<div class="container">
+  <h2 class="tituloChat">Chat</h2>
+  <div
+    class="container bg-secondary rounded"
+    style="height: 45vh; overflow-y: scroll"
+    id="contenedorMensajes"
+  ></div>
+
+  <form
+    class="row mt-4 mb-4 justify-content-center gap-2"
+    onsubmit="return enviarMensaje(event)"
+  >
+    <div class="col-12 mb-2">
+      <textarea
+        name="mensaje"
+        id="inputMensaje"
+        rows="5"
+        class="form-control"
+        placeholder="Ingrese su mensaje..."
+      ></textarea>
+    </div>
+
+    <div class="col-5">
+      <input
+        type="email"
+        class="form-control"
+        placeholder="Email"
+        id="inputEmail"
+        required
+      />
+    </div>
+
+    <div class="col-auto">
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Nombre"
+        id="inputNombre"
+        required
+      />
+    </div>
+
+    <div class="col-auto">
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Apellido"
+        id="inputApellido"
+        required
+      />
+    </div>
+
+    <div class="col-auto">
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Edad"
+        id="inputEdad"
+        required
+      />
+    </div>
+
+    <div class="col-auto">
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Alias"
+        id="inputAlias"
+        required
+      />
+    </div>
+
+    <div class="col-5">
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Avatar URL"
+        id="inputAvatar"
+        required
+      />
+    </div>
+
+    <div class="col-auto">
+      <button class="btn btn-primary" type="submit">Enviar</button>
+    </div>
+  </form>
+</div>

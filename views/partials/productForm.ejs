@@ -1,0 +1,18 @@
+<div class="container mb-3">
+  <h2>Cargar producto</h2>
+  <form onsubmit="return cargarProducto(event)">
+    <div class="mb-3">
+      <label for="nombre" class="form-label">Nombre</label>
+      <input type="text" required class="form-control" name="title" />
+    </div>
+    <div class="mb-3">
+      <label for="precio" class="form-label">Precio</label>
+      <input type="number" required class="form-control" name="price" />
+    </div>
+    <div class="mb-3">
+      <label for="imagen" class="form-label">URL de Imagen</label>
+      <input class="form-control" required type="text" name="thumbnail" />
+    </div>
+    <button type="submit" class="btn btn-primary">Cargar producto</button>
+  </form>
+</div>

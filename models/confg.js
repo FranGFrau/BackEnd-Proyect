@@ -1,11 +1,12 @@
 let productosDao;
 let carritosDao;
+let chatsDao;
 
 let contenedor = "mongodb";
 switch (contenedor) {
   case "txt":
-    const ProductosDaoArchivo = require("./productos/ProductosDAOArchivo");
-    const CarritosDaoArchivo = require("./carritos/CarritoDAOArchivo");
+    const ProductosDaoArchivo = require("./productos/productosDAOArchivo");
+    const CarritosDaoArchivo = require("./carritos/carritosDAOArchivo");
 
     productosDao = new ProductosDaoArchivo();
     carritosDao = new CarritosDaoArchivo();
@@ -19,12 +20,15 @@ switch (contenedor) {
     break;
   case "mongodb":
     const ProductosDaoMongoDb = require("./productos/ProductosDAOMongoDb");
-    const CarritosDaoMongoDb = require("./carritos/CarritosDAOMongoDb");
+    const CarritosDaoMongoDb = require("./carritos/CarritosDAOMongoDB");
+    const ChatsDAOMongoDB = require("./chats/ChatsDAOMongoDB");
 
+    chatsDao = new ChatsDAOMongoDB();
     productosDao = new ProductosDaoMongoDb();
     carritosDao = new CarritosDaoMongoDb();
     break;
 }
 
+exports.chats = chatsDao;
 exports.carritos = carritosDao;
 exports.productos = productosDao;
