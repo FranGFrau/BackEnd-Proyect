@@ -1,0 +1,27 @@
+<div class="container rounded bg-secondary text-light py-2 mt-2">
+  <div class="row">
+    <% if (nombre) { %>
+    <div class="col">
+      <h2 class="tituloBienvenida">Bienvenido <%= nombre %></h2>
+    </div>
+    <div class="col-auto">
+      <button class="btn btn-dark btnDesloguear" onclick="desloguear(event)">
+        Salir
+      </button>
+    </div>
+    <% }else{ %>
+    <form class="col" onsubmit="loguear(event)">
+      <h3>Login</h3>
+      <label class="form-label" for="nombre">Nombre</label>
+      <input
+        type="text"
+        name="nombre"
+        class="form-control"
+        placeholder="Ingrese su nombre..."
+        required
+      />
+      <button type="submit" class="btn btn-dark mt-2">Ingresar</button>
+    </form>
+    <%} %>
+  </div>
+</div>

@@ -76,3 +76,39 @@ const enviarMensaje = async (e) => {
     text,
   });
 };
+
+const loguear = async (e) => {
+  e.preventDefault();
+  const nombre = e.target.nombre.value;
+
+  const respuestaRef = await fetch("login", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ nombre }),
+  });
+
+  location.reload();
+};
+
+const desloguear = async (e) => {
+  const respuestaRef = await fetch("logout");
+  const tituloBienvenida = document.querySelector(".tituloBienvenida");
+  const contenedorFormProductos = document.querySelector(
+    ".contenedorFormProductos"
+  );
+  const contenedorChat = document.querySelector(".contenedorChat");
+  const btnDesloguear = document.querySelector(".btnDesloguear");
+  const tablaProductos = document.querySelector("#tablaProductos");
+  tituloBienvenida.innerText = tituloBienvenida.innerText.replace(
+    "Bienvenido",
+    "Hasta pronto"
+  );
+  contenedorFormProductos.remove();
+  contenedorChat.remove();
+  tablaProductos.remove();
+  btnDesloguear.remove();
+
+  setTimeout(() => {
+    location.reload();
+  }, 2000);
+};
